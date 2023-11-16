@@ -7,6 +7,10 @@
 *.dll
 *.so
 *.dylib
+*.csv
+*.xlsx
+*.db
+*.json
 
 # Test binary, built with `go test -c`
 *.test
