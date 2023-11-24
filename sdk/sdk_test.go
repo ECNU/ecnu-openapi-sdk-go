@@ -34,7 +34,7 @@ func Test_ParseRowsToCSV(t *testing.T) {
 
 	filename := "test.csv"
 
-	if err := ParseRowsToCSV(rows, filename); err != nil {
+	if err := parseRowsToCSV(rows, filename); err != nil {
 		t.Error(err)
 	}
 

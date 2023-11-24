@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	xlsx "github.com/tealeg/xlsx/v3"
 	"os"
 	"reflect"
 	"sort"
@@ -21,8 +22,83 @@ func init() {
 	jsontime.AddLocaleAlias("shanghai", timeZoneShanghai)
 }
 
+// ParseRowsToXSLX
+func parseRowsToXLSX(rows []interface{}, filename string) error {
+	// 首先，检查 rows 是否为空
+	if len(rows) == 0 {
+		return errors.New("rows is empty")
+	}
+
+	// 然后，检查 filename 是否为空
+	if filename == "" {
+		return errors.New("filename is empty")
+	}
+
+	// 创建一个新的xlsx文件
+	xlsxFile := xlsx.NewFile()
+
+	// 创建一个新的sheet
+	sheet, err := xlsxFile.AddSheet("Sheet1")
+	if err != nil {
+		return err
+	}
+
+	// 创建一个新的行
+	xlsxRow := sheet.AddRow()
+
+	// 遍历 rows 中的每个元素，将其转换为 map[string]interface{}
+	for i, row := range rows {
+		// 将 row 转换为 json 字节
+		jsonBytes, err := json.Marshal(row)
+		if err != nil {
+			return err
+		}
+
+		// 创建一个新的 map[string]interface{}
+		m := make(map[string]interface{})
+
+		// 解码 json 字节到新 map 中
+		err = json.Unmarshal(jsonBytes, &m)
+		if err != nil {
+			return err
+		}
+
+		// 对 map 中的 key 进行排序
+		var keys []string
+		for k := range m {
+			keys = append(keys, k)
+		}
+		sort.Strings(keys)
+
+		// 对于第一行，写入 header
+		if i == 0 {
+			for _, key := range keys {
+				cell := xlsxRow.AddCell()
+				cell.SetString(key)
+			}
+		}
+
+		// 创建一个新的行
+		xlsxRow = sheet.AddRow()
+
+		// 将 values 写入xlsx
+		for _, key := range keys {
+			cell := xlsxRow.AddCell()
+			cell.SetString(fmt.Sprintf("%v", m[key]))
+		}
+	}
+
+	// 保存xlsx文件
+	err = xlsxFile.Save(filename)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // ParseRowsToCSV
-func ParseRowsToCSV(rows []interface{}, filename string) error {
+func parseRowsToCSV(rows []interface{}, filename string) error {
 	// 首先，检查 rows 是否为空
 	if len(rows) == 0 {
 		return errors.New("rows is empty")

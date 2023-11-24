@@ -2,6 +2,7 @@ package sdk
 
 import (
 	"database/sql"
+	"errors"
 	"net/url"
 	"reflect"
 	"strings"
@@ -57,7 +58,12 @@ func (api *APIConfig) ParamEncode() string {
 	return api.params.Encode()
 }
 
-func SyncToCSV(csvFileName string, api APIConfig) (int64, error) {
+func SyncToCSV(fileName string, api APIConfig) (int64, error) {
+	mode := "csv"
+	return SyncToFile(mode, fileName, api)
+}
+
+func SyncToFile(mode string, fileName string, api APIConfig) (int64, error) {
 	c := GetOpenAPIClient()
 	api.SetDefault()
 	apiPath := api.APIPath
@@ -72,7 +78,15 @@ func SyncToCSV(csvFileName string, api APIConfig) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	if err = ParseRowsToCSV(rows, csvFileName); err != nil {
+	switch mode {
+	case "csv":
+		err = parseRowsToCSV(rows, fileName)
+	case "xlsx":
+		err = parseRowsToXLSX(rows, fileName)
+	default:
+		return 0, errors.New("not support mode: csv or xlsx")
+	}
+	if err != nil {
 		return 0, err
 	}
 	return int64(len(rows)), nil
