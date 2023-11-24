@@ -6,7 +6,7 @@ import (
 	"github.com/ecnu/ecnu-openapi-sdk-go/sdk"
 )
 
-func exampleSyncToCSV() {
+func exampleSyncToXLSX() {
 	/*
 		   type APIConfig struct {
 		   	APIPath        string `json:"api_path"`   // 接口的地址，例如 /api/v1/organization/list, 也可以追加参数，例如 /api/v1/organization/list?departmentId=0445
@@ -24,14 +24,14 @@ func exampleSyncToCSV() {
 	}
 
 	api.SetParam("ts", "0")
-	// 同步到 csv
-	// csv 模式下，所有字段都会转为 string
-	csvFile := "test.csv"
-	mode := "csv"
-	rows, err := sdk.SyncToFile(mode, csvFile, api)
+	// 同步到 xlsx
+	// xlsx 模式下，所有字段都会转为 string
+	xlsxFile := "test.xlsx"
+	mode := "xlsx"
+	rows, err := sdk.SyncToFile(mode, xlsxFile, api)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("CSV：已同步 %d 条数据\n", rows)
+	fmt.Printf("XLSX：组织机构同步 %d 条数据\n", rows)
 }

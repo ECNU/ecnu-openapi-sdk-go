@@ -33,6 +33,7 @@ func main() {
 	fmt.Println(string(res))
 
 	exampleSyncToCSV()
+	exampleSyncToXLSX()
 	exampleSyncToModel()
 	exampleSyncToDB()
 	//exampleSyncPerformance()
