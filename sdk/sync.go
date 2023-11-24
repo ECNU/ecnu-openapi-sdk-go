@@ -58,6 +58,11 @@ func (api *APIConfig) ParamEncode() string {
 	return api.params.Encode()
 }
 
+func SyncToCSV(fileName string, api APIConfig) (int64, error) {
+	mode := "csv"
+	return SyncToFile(mode, fileName, api)
+}
+
 func SyncToFile(mode string, fileName string, api APIConfig) (int64, error) {
 	c := GetOpenAPIClient()
 	api.SetDefault()
@@ -75,7 +80,7 @@ func SyncToFile(mode string, fileName string, api APIConfig) (int64, error) {
 	}
 	switch mode {
 	case "csv":
-		err = ParseRowsToCSV(rows, fileName)
+		err = parseRowsToCSV(rows, fileName)
 	case "xlsx":
 		err = parseRowsToXLSX(rows, fileName)
 	default:

@@ -98,7 +98,7 @@ func parseRowsToXLSX(rows []interface{}, filename string) error {
 }
 
 // ParseRowsToCSV
-func ParseRowsToCSV(rows []interface{}, filename string) error {
+func parseRowsToCSV(rows []interface{}, filename string) error {
 	// 首先，检查 rows 是否为空
 	if len(rows) == 0 {
 		return errors.New("rows is empty")
