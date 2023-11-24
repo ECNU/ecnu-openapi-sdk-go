@@ -75,7 +75,7 @@ func SyncToFile(mode string, fileName string, api APIConfig) (int64, error) {
 	}
 	switch mode {
 	case "csv":
-		err = parseRowsToCSV(rows, fileName)
+		err = ParseRowsToCSV(rows, fileName)
 	case "xlsx":
 		err = parseRowsToXLSX(rows, fileName)
 	default:
