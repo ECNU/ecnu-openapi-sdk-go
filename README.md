@@ -13,7 +13,7 @@
 - 数据同步（接口必须支持翻页）
   - 全量同步
     - [x] 同步为 csv 格式
-    - [ ] 同步为 xls/xlsx 格式
+    - [x] 同步为 xls/xlsx 格式
     - [x] 同步到数据库
     - [x] 同步到模型
   - 增量同步（接口必须支持ts增量参数）
@@ -103,6 +103,7 @@ Todo
 
 - [Init & CallAPI](example/example.go)
 - [SyncToCSV](example/example_csv.go)
+- [SyncToXlSX](example/example_xlsx.go)
 - [SyncToModel](example/example_model.go)
 - [SyncToDB](example/example_db.go)
 
