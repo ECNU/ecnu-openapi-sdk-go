@@ -44,6 +44,15 @@
 
 ## 示例
 
+### 引入 SDK
+
+```go
+import (
+	"github.com/ecnu/ecnu-openapi-sdk-go/sdk"
+)
+
+```
+
 ### authorization code
 
 Todo
