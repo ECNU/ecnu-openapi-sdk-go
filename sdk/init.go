@@ -10,9 +10,15 @@ import (
 )
 
 const (
-	DefaultScope   = "ECNU-Basic"
-	DefaultBaseURL = "https://api.ecnu.edu.cn"
-	DefaultTimeout = 10
+	DefaultScope       = "ECNU-Basic"
+	DefaultBaseURL     = "https://api.ecnu.edu.cn"
+	DefaultTimeout     = 10
+	DefaultUserInfoURL = "https://api.ecnu.edu.cn/oauth2/userinfo"
+	DefaultAuthURL     = "https://api.ecnu.edu.cn/oauth2/authorize"
+	DefaultTokenURL    = "https://api.ecnu.edu.cn/oauth2/token"
+
+	DefaultCacheExpiration = 5 * time.Minute
+	DefaultCacheCleanup    = 10 * time.Minute
 )
 
 var (
@@ -28,13 +34,29 @@ type OAuth2Client struct {
 	Debug      bool
 }
 
+type EndpointConf struct {
+	AuthURL  string `json:"auth_url"`
+	TokenURL string `json:"token_url"`
+}
+type CacheConfig struct {
+	Expiration time.Duration
+	Cleanup    time.Duration
+}
+
 type OAuth2Config struct {
 	ClientId     string   `json:"client_id"`
 	ClientSecret string   `json:"client_secret"`
-	BaseUrl      string   `json:"base_url"`
 	Scopes       []string `json:"scopes"`
-	Timeout      int64    `json:"timeout"`
 	Debug        bool     `json:"debug"`
+
+	BaseUrl string `json:"base_url"`
+	Timeout int64  `json:"timeout"`
+
+	RedirectURL string       `json:"redirect_url"`
+	UserInfoURL string       `json:"user_info_url"`
+	Endpoint    EndpointConf `json:"endpoint"`
+
+	Cache CacheConfig `json:"cache"`
 }
 
 // Init 初始化 OAuth2 应用
